@@ -5,12 +5,10 @@ import java.util.Vector;
 public class DataObject {
 
 	private String name;
-	private Vector<Attribute> attribute;
-	private Vector<DataAttributes> dataAttributes;
+	private Vector<DataAttribute> dataAttributes;
 
-	DataObject() {
-		this.attribute = new Vector<Attribute>();
-		this.dataAttributes = new Vector<DataAttributes>();
+	public DataObject() {
+		this.dataAttributes = new Vector<DataAttribute>();
 	}
 
 	public String getName() {
@@ -21,7 +19,15 @@ public class DataObject {
 		this.name = name;
 	}
 
-	
+	public void addDataAttributes (DataAttribute da) {
+		this.dataAttributes.add(da);
+	}
+
+	@Override
+	public String toString() {
+		return "DataObject [name=" + name + ", dataAttributes="
+				+ dataAttributes.toString() + "]";
+	}
 
 	// abgelich
 	/*

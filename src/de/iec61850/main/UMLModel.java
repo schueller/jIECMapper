@@ -2,95 +2,57 @@ package de.iec61850.main;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Vector;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.Namespace;
-import org.jdom2.input.SAXBuilder;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class UMLModel {
 
 	private String l_uml;
-	private Document l_doc;
-	Vector<Type> l_types;
 
 	public UMLModel(File uml) {
-		// check if file end with .uml
-		this.l_types = new Vector<Type>();
 		if (uml.getName().toLowerCase().endsWith(".uml")) {
+			DocumentBuilderFactory domFactory = DocumentBuilderFactory
+					.newInstance();
+			domFactory.setNamespaceAware(true);
 			try {
-				this.l_doc = new SAXBuilder().build(uml);
-				this.getPrimitveTypes(this.l_doc.getRootElement().getChildren());
-				this.findClass("WTUR");
-				System.out.println(this.l_types);
-			} catch (JDOMException e) {
+				DocumentBuilder builder = domFactory.newDocumentBuilder();
+				Document doc = builder.parse(uml);
+				XPath xpath = XPathFactory.newInstance().newXPath();
+				XPathExpression expr = xpath
+						.compile("//packagedElement[@name='Model']/*[@xmi:id]");
+				Object result = expr.evaluate(doc, XPathConstants.NODESET);
+				NodeList nodes = (NodeList) result;
+				for (int i = 0; i < nodes.getLength(); i++) {
+					System.out.println(nodes.item(i));
+				}
+			} catch (ParserConfigurationException e) {
 				// TODO Auto-generated catch block
-				System.err.println(e.getMessage());
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				System.err.println(e.getMessage());
+				e.printStackTrace();
+			} catch (XPathExpressionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 		} else {
 			this.l_uml = "wrong file extension";
 			System.err.println("wrong file extension");
-		}
-	}
-
-	private void findClass(String name) {
-		for (Element child : this.l_doc.getRootElement().getChildren()) {
-			if (child.getAttributeValue("type", Namespace
-					.getNamespace("http://schema.omg.org/spec/XMI/2.1")) != null) {
-				if (child
-						.getAttributeValue(
-								"type",
-								Namespace
-										.getNamespace("http://schema.omg.org/spec/XMI/2.1"))
-						.equals("uml:Class")) {
-					System.out.println("found");
-					break;
-				}
-			}
-
-		}
-	}
-
-	private void getPrimitveTypes(List<Element> childs) {
-		Element pt = null;
-		for (Element child : childs) {
-			if (child.getAttribute("name") != null) {
-				// System.out.println(child.getAttributeValue("name"));
-				if ((child.getAttributeValue("name").equals("PrimitiveTypes"))) {
-					// System.out.println(child);
-					pt = child;
-					break;
-				}
-			}
-		}
-		if (pt != null) {
-			// System.out.println(pt);
-			this.getPrimitiveType(pt.getChildren());
-		}
-	}
-
-	private void getPrimitiveType(List<Element> childs) {
-		for (Element child : childs) {
-			// System.out.println(child.getAttributes().get(0).getNamespaceURI());
-			// System.out.println(child.getAttributeValue("type", Namespace
-			// .getNamespace("http://schema.omg.org/spec/XMI/2.1")));
-			this.l_types
-					.add(new Type(
-							child.getAttributeValue("name"),
-							child.getAttributeValue(
-									"id",
-									Namespace
-											.getNamespace("http://schema.omg.org/spec/XMI/2.1")),
-							child.getAttributeValue(
-									"type",
-									Namespace
-											.getNamespace("http://schema.omg.org/spec/XMI/2.1"))));
 		}
 	}
 
