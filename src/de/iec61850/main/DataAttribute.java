@@ -74,25 +74,10 @@ public class DataAttribute {
 		if (getClass() != obj.getClass())
 			return false;
 		DataAttribute other = (DataAttribute) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (moc == null) {
-			if (other.moc != null)
-				return false;
-		} else if (!moc.equals(other.moc))
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (t == null) {
-			if (other.t != null)
-				return false;
-		} else if (!t.equals(other.t))
 			return false;
 		if (typ == null) {
 			if (other.typ != null)

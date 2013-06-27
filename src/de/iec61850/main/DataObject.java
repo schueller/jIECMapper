@@ -1,14 +1,15 @@
 package de.iec61850.main;
 
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Set;
 
 public class DataObject {
 
 	private String name;
-	private Vector<DataAttribute> dataAttributes;
+	private HashMap<String, DataAttribute> dataAttributes;
 
 	public DataObject() {
-		this.dataAttributes = new Vector<DataAttribute>();
+		this.dataAttributes = new HashMap<String, DataAttribute>();
 	}
 
 	public String getName() {
@@ -20,7 +21,15 @@ public class DataObject {
 	}
 
 	public void addDataAttributes (DataAttribute da) {
-		this.dataAttributes.add(da);
+		this.dataAttributes.put(da.getName(), da);
+	}
+	
+	public Set<String> getAttrNamen () {
+		return this.dataAttributes.keySet();
+	}
+	
+	public DataAttribute getAttr (String name) {
+		return this.dataAttributes.get(name);
 	}
 
 	@Override
@@ -29,6 +38,7 @@ public class DataObject {
 				+ dataAttributes.toString() + "]";
 	}
 
+	
 	// abgelich
 	/*
 	 * TODO eine Methode "check" abgleich jedes einzelnen elements, rückgabe von
