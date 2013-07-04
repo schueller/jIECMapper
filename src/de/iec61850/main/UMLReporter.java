@@ -43,6 +43,8 @@ public class UMLReporter {
 			DataObject daobEXL = exdatah.find(daobUML.getName());
 			if (daobEXL != null) {
 				if (daobEXL.equals(daobUML) == false) {
+					// Bei Auswertung attributtyp zwei spalten 
+					// in uml oder in excel, bzw beides
 					TreeMap<DataAttribute, Integer> summonDAttr =  new TreeMap<DataAttribute, Integer>();
 					// pro attribut aus Excel
 					for (DataAttribute attrExcl : daobEXL.getAttrs()) {
