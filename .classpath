@@ -3,6 +3,35 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/jdom-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/umlreader.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.6.2.v20130123-162658.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.contenttype_3.4.200.v20120523-2004.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.jobs_3.5.300.v20120912-155018.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.runtime_3.8.0.v20120912-155025.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.e4.ui.workbench3_0.12.0.v20120521-2329.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.common_2.8.0.v20130125-0546.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore_2.8.3.v20130125-0546.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.xmi_2.8.1.v20130125-0546.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ecore2xml_2.7.0.v20130125-0826.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.app_1.3.100.v20120522-1841.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.6.100.v20120522-1841.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.preferences_3.5.1.v20121031-182809.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.8.102.v20130123-162658.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.8.2.v20130124-134944.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.swt_3.100.1.v4236b.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.swt.win32.win32.x86_64_3.100.1.v4236b.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.ui_3.104.0.v20121024-145224.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.ui.workbench_3.104.0.v20130204-164612.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.uml2.common_1.7.0.v20130114-0902.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.uml2.types_1.0.0.v20130114-0902.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.uml2.uml_4.0.2.v20130114-0902.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.uml2.uml.profile.l2_1.0.1.v20130114-0902.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.uml2.uml.profile.l3_1.0.1.v20130114-0902.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.uml2.uml.resources_4.0.2.v20130114-0902.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xtend.typesystem.emf_1.3.0.v201302260541.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xtend.typesystem.uml2_1.3.0.v201302260541.jar"/>
+	<classpathentry kind="lib" path="lib/runtime_registry_compatibility.jar"/>
 	<classpathentry kind="lib" path="lib/jxl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
