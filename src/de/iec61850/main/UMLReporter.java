@@ -3,8 +3,8 @@ package de.iec61850.main;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -14,6 +14,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Extension;
+import org.eclipse.uml2.uml.Feature;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -27,19 +30,19 @@ import de.iec61850.typ.DataObject;
 public class UMLReporter {
 
 	private ExcelDataHandler exdatah;
-	private Vector<DataObject> umlVector;
-	
-	//Reports
+	private HashMap<String, DataObject> umlVector;
+
+	// Reports
 	private int lnEquals = 0;
 	private int missLNEquals = 0;
 	private int missLNInExcel = 0;
+	private int missLNInUML = 0;
 	private int missLCInExcel = 0;
 	private int missLCInUml = 0;
-	
-	
+
 	public UMLReporter() {
 		exdatah = new ExcelDataHandler();
-		this.umlVector = new Vector<DataObject>();
+		this.umlVector = new HashMap<String, DataObject>();
 		exdatah.loadAll();
 		this.loadUML();
 	}
@@ -48,7 +51,7 @@ public class UMLReporter {
 		String output = new String(
 				"Classname;Attributname;Attributtyp;inUML;inEXCEL;isEquals"
 						+ System.lineSeparator());
-		for (DataObject daobUML : this.umlVector) {
+		for (DataObject daobUML : this.umlVector.values()) {
 			DataObject daobEXL = exdatah.find(daobUML.getName());
 			if (daobEXL != null) {
 				if (daobEXL.equals(daobUML) == false) {
@@ -85,24 +88,43 @@ public class UMLReporter {
 						}
 					}
 				} else {
-					this.lnEquals ++;
+					this.lnEquals++;
 					output += daobUML.getName() + ";;;j;j;j"
 							+ System.lineSeparator();
-					this.missLNInExcel++;
 				}
 			} else {
+				this.missLNInExcel++;
 				output += daobUML.getName() + ";;;j;n;n"
 						+ System.lineSeparator();
+			}
+		}
+		for (DataObject daobExcel : this.exdatah.getObjectList()) {
+			DataObject daobUML = umlVector.get(daobExcel.getName());
+			if (daobUML != null) {
+
+			} else {
+				missLNInUML++;
 			}
 		}
 		File outFile = new File("report.csv");
 		try {
 			FileWriter outFileWriter = new FileWriter(outFile);
-			outFileWriter.write("Classes not in Excel;"+this.missLNInExcel+ System.lineSeparator());
-			outFileWriter.write("Classes equals;"+this.lnEquals+ System.lineSeparator());
-			outFileWriter.write("Classes not equals;"+this.missLNEquals+ System.lineSeparator());
-			outFileWriter.write("Attributes not in Excel;"+this.missLCInExcel+ System.lineSeparator());
-			outFileWriter.write("Attributes not in UML;"+this.missLCInUml+ System.lineSeparator());
+			outFileWriter.write("Number of Classes in UML;"
+					+ this.umlVector.size() + System.lineSeparator());
+			outFileWriter.write("Number of Classes in EXCEL;"
+					+ this.exdatah.size() + System.lineSeparator());
+			outFileWriter.write("Classes not in Excel;" + this.missLNInExcel
+					+ System.lineSeparator());
+			outFileWriter.write("Classes not in UML;" + this.missLNInUML
+					+ System.lineSeparator());
+			outFileWriter.write("Classes equals;" + this.lnEquals
+					+ System.lineSeparator());
+			outFileWriter.write("Classes not equals;" + this.missLNEquals
+					+ System.lineSeparator());
+			outFileWriter.write("Attributes not in Excel;" + this.missLCInExcel
+					+ System.lineSeparator());
+			outFileWriter.write("Attributes not in UML;" + this.missLCInUml
+					+ System.lineSeparator());
 			outFileWriter.write(output);
 			outFileWriter.flush();
 			outFileWriter.close();
@@ -141,7 +163,14 @@ public class UMLReporter {
 				try {
 					Class c = (Class) o;
 					if (c != null) {
-						if (c.getName().equals("") == false) {
+						if (c.getName().equals("") == false && c.getNamespace() != null) {
+//							if (c.getName().equals("validity:=invalid")) {
+//								System.out.println("class:" + c.getName()
+//										+ "|attr:" + c.getNamespace());
+//							}
+							// for (Feature ext : c.getNamespace()) {
+							//
+							// }
 							DataObject daobUML = new DataObject();
 							daobUML.setName(c.getName());
 							java.util.List<Property> properties = c
@@ -153,7 +182,7 @@ public class UMLReporter {
 								daa.setMoc("");
 								daobUML.addDataAttributes(daa);
 							}
-							this.umlVector.add(daobUML);
+							this.umlVector.put(daobUML.getName(), daobUML);
 						}
 					}
 				} catch (java.lang.ClassCastException e) {

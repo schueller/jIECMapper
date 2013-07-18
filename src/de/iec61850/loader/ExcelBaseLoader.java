@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import jxl.Range;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -66,15 +65,15 @@ public class ExcelBaseLoader {
 		boolean anf = false, atf = false;
 		for (int col = 0; col < sheet.getColumns(); col++) {
 			for (int row = 0; row < sheet.getRows(); row++) {
-				// System.out.println(sheet.getCell(col,1).getContents());
-				if (sheet.getCell(col, row).getContents().trim()
-						.equals(attrNameTag)) {
+				//System.out.println(sheet.getCell(col,1).getContents().replace("\n", "").replace(" ", "").trim());
+				if (sheet.getCell(col, row).getContents().replace("\n", "").replace(" ", "").trim()
+						.equalsIgnoreCase(attrNameTag)) {
 					attrname = col;
 					anf = true;
 					this.firstelement = row;
-				}
-				if (sheet.getCell(col, row).getContents().trim()
-						.equals(attrTypTag)) {
+				} 
+				if (sheet.getCell(col, row).getContents().replace("\n", "").replace(" ", "").trim()
+						.equalsIgnoreCase(attrTypTag)) {
 					attrtyp = col;
 					atf = true;
 					this.firstelement = row;
@@ -90,7 +89,7 @@ public class ExcelBaseLoader {
 	private void getDataObjectFromXLS(Sheet sheet) {
 		if (sheet.getCell(0, 0).getContents().indexOf("class") > -1) {
 			DataObject dobj = new DataObject();
-			// System.out.println(sheet.getName().trim());
+			//System.out.println(sheet.getCell(0, 0).getContents());
 			dobj.setName(sheet.getCell(0, 0).getContents().replace("class", "")
 					.trim());
 			// spalten holen
@@ -108,6 +107,8 @@ public class ExcelBaseLoader {
 				} else {
 					this.dataObjectList.put(dobj.getName(), dobj);
 				}
+			} else {
+				//System.out.println("-11-");
 			}
 		}
 	}
@@ -120,8 +121,8 @@ public class ExcelBaseLoader {
 //				if (sheet.getCell(attrname, row).getContents().trim().length() < 100) {
 					DataAttribute da = new DataAttribute();
 					da.setName(sheet.getCell(attrname, row).getContents()
-							.replace("\n", "").trim());
-					da.setTyp(sheet.getCell(attrtyp, row).getContents().trim());
+							.replace("\n", "").replace(" ", "").trim());
+					da.setTyp(sheet.getCell(attrtyp, row).getContents().replace(" ", "").trim());
 					da.setMoc("");
 					dobj.addDataAttributes(da);
 //				}

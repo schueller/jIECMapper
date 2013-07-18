@@ -1,6 +1,7 @@
 package de.iec61850.loader;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 import de.iec61850.typ.DataObject;
 
@@ -33,4 +34,11 @@ public class ExcelDataHandler {
 		return this.dataObjectList.get(name);
 	}
 
+	public Vector<DataObject> getObjectList () {
+		return new Vector<DataObject>(this.dataObjectList.values());
+	}
+	
+	public int size() {
+		return this.dataObjectList.size();
+	}
 }
