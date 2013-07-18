@@ -65,15 +65,16 @@ public class ExcelBaseLoader {
 		boolean anf = false, atf = false;
 		for (int col = 0; col < sheet.getColumns(); col++) {
 			for (int row = 0; row < sheet.getRows(); row++) {
-				//System.out.println(sheet.getCell(col,1).getContents().replace("\n", "").replace(" ", "").trim());
-				if (sheet.getCell(col, row).getContents().replace("\n", "").replace(" ", "").trim()
-						.equalsIgnoreCase(attrNameTag)) {
+				// System.out.println(sheet.getCell(col,1).getContents().replace("\n",
+				// "").replace(" ", "").trim());
+				if (sheet.getCell(col, row).getContents().replace("\n", "")
+						.replace(" ", "").trim().equalsIgnoreCase(attrNameTag)) {
 					attrname = col;
 					anf = true;
 					this.firstelement = row;
-				} 
-				if (sheet.getCell(col, row).getContents().replace("\n", "").replace(" ", "").trim()
-						.equalsIgnoreCase(attrTypTag)) {
+				}
+				if (sheet.getCell(col, row).getContents().replace("\n", "")
+						.replace(" ", "").trim().equalsIgnoreCase(attrTypTag)) {
 					attrtyp = col;
 					atf = true;
 					this.firstelement = row;
@@ -89,7 +90,7 @@ public class ExcelBaseLoader {
 	private void getDataObjectFromXLS(Sheet sheet) {
 		if (sheet.getCell(0, 0).getContents().indexOf("class") > -1) {
 			DataObject dobj = new DataObject();
-			//System.out.println(sheet.getCell(0, 0).getContents());
+			// System.out.println(sheet.getCell(0, 0).getContents());
 			dobj.setName(sheet.getCell(0, 0).getContents().replace("class", "")
 					.trim());
 			// spalten holen
@@ -99,7 +100,8 @@ public class ExcelBaseLoader {
 					this.getDataAttributeFromXLS(dobj, sheet, row);
 				}
 				if (this.dataObjectList.containsKey(dobj.getName())) {
-					DataObject summondobj = this.dataObjectList.get(dobj.getName());
+					DataObject summondobj = this.dataObjectList.get(dobj
+							.getName());
 					for (DataAttribute daaa : dobj.getAttrs()) {
 						summondobj.addDataAttributes(daaa);
 					}
@@ -108,7 +110,7 @@ public class ExcelBaseLoader {
 					this.dataObjectList.put(dobj.getName(), dobj);
 				}
 			} else {
-				//System.out.println("-11-");
+				// System.out.println("-11-");
 			}
 		}
 	}
@@ -118,14 +120,17 @@ public class ExcelBaseLoader {
 			if (sheet.getCell(attrname + 1, row).getContents()
 					.replace("\n", "").equals("") == false) {
 				// TODO find a better way for false cells
-//				if (sheet.getCell(attrname, row).getContents().trim().length() < 100) {
+				if ((sheet.getCell(attrname, row).getContents().trim().length() < 100)
+						&& (sheet.getCell(attrname, row).getContents()
+								.replace("\n", "").replace(" ", "").trim().equals("DataName") == false)) {
 					DataAttribute da = new DataAttribute();
 					da.setName(sheet.getCell(attrname, row).getContents()
 							.replace("\n", "").replace(" ", "").trim());
-					da.setTyp(sheet.getCell(attrtyp, row).getContents().replace(" ", "").trim());
+					da.setTyp(sheet.getCell(attrtyp, row).getContents()
+							.replace("\n", "").replace(" ", "").trim());
 					da.setMoc("");
 					dobj.addDataAttributes(da);
-//				}
+				}
 			}
 		}
 	}
