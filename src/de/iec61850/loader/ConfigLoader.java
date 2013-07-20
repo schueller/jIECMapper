@@ -23,15 +23,20 @@ public class ConfigLoader {
 	private void readLinesFromFile() {
 		try {
 			Scanner reader = new Scanner(this.confFile);
+			// zeilen weises einlesen
 			while (reader.hasNext()) {
 				String line = reader.nextLine();
+				// kommentar
 				if (line.substring(0,1).equals("#") == false) {
+					// Exceldateien Pfad
 					if (line.indexOf("xsl") > -1) {
 						this.xslPath = line.substring(line.indexOf("=")+1).trim();
 					}
+					// UMLdateien Pfad
 					if (line.indexOf("uml") > -1) {
 						this.umlPath = line.substring(line.indexOf("=")+1).trim();
 					}
+					// einzulesende Exceldateien
 					if (line.indexOf("entry") > -1) {
 						this.entries.add(line.substring(line.indexOf("=")+1)
 								.trim());
